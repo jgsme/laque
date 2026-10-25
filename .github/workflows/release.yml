@@ -1,0 +1,32 @@
+name: release
+
+# v0.1.0 のような tag を push したら npm に publish する。
+# 認証は npm の trusted publishing (OIDC) で、npm token は持たない。
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # trusted publishing は npm 11.5.1 以上が要る。Node 24 同梱の npm で足りる
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      # tag と package.json の version がずれたまま出さない
+      - name: tag と version の一致を確認
+        run: |
+          version="v$(node -p 'require("./package.json").version')"
+          if [ "$version" != "$GITHUB_REF_NAME" ]; then
+            echo "!! tag ($GITHUB_REF_NAME) と package.json ($version) が一致しない"
+            exit 1
+          fi
+      - run: npm publish
