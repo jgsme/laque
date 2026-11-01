@@ -38,6 +38,29 @@
 
   --color-link: var(--color-blue-600);
 
+  /* --- 闇落ち (jgs.me の HTML 記事のヘッダ) --- */
+  /* 記事ヘッダが「闇落ち」する演出で使う色。要素ごとの役割:
+       abyss          地 (闇の背景)
+       abyss-fg       文字
+       abyss-mark     マーク
+       glitch-cyan    色ずれ (シアン側)
+       glitch-pink    色ずれ (ピンク側)
+       abyss-spark    刷り直しで一瞬明るくなる字
+       glitch-red     題の影
+       on-brand-muted    赤い帯 (--color-brand) の上の淡い文字
+       on-brand-heading  赤い帯の上の見出し
+     白の半透明や abyss-mark の薄い色は token にせず、white/10 や abyss-mark/30 の
+     ように opacity 修飾で書く。 */
+  --color-abyss: #0e0b0b;
+  --color-abyss-fg: #e9e2de;
+  --color-abyss-mark: #d1392e;
+  --color-glitch-cyan: #00d9ff;
+  --color-glitch-pink: #ff7aa2;
+  --color-abyss-spark: #ff8a7a;
+  --color-glitch-red: #ff1f4b;
+  --color-on-brand-muted: #e8b4ae;
+  --color-on-brand-heading: #f3d6d3;
+
   /* --- 面と境界 --- */
   /* 無印が薄く -strong が濃い。surface と border で段階の向きを揃えている。 */
   --color-surface: var(--color-neutral-50);
