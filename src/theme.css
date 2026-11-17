@@ -140,6 +140,11 @@
      .article-rule) に 90vw と直接書くと、決定が grep から消える。 */
   --container-rule: 90vw;
 
+  /* 本文の強調の語彙 (--text-deco-*) と対になる幅。本文の強調が大きい字を出すとき、
+     本文カラムを突き抜けて 90vw まで使う。--container-photo / --container-rule と
+     値は同じだが、写真や水平線の幅を変えたときに強調の字まで動かないよう別の名前で持つ。 */
+  --container-deco: 90vw;
+
   /* video clip の本文の先頭にある動画の幅。水平線と同じく本文カラムを突き抜けさせる。
      幅だけで決めると横長の画面で高さが画面を超え、動画の下が切れる。
      16:9 の高さが「画面の高さから動画より上のぶん (18rem) を引いた分」に
@@ -147,6 +152,108 @@
      約 16rem (実測 258px)。残りは下の余白。題が 2 行になると少しはみ出す。
      本文カラムより狭くはしない (参照側は packages/web の clip-video-body)。 */
   --container-video: min(90vw, calc((100svh - 18rem) * 16 / 9));
+
+  /* --- 文字サイズ --- */
+  /* 使ってよい文字サイズの語彙。UI 用の 11 段 (2xs〜6xl) と、本文の強調用の
+     10 段 (deco-1〜deco-10) の 2 つの体系に分けている。UI は Tailwind のデフォルト
+     (xs〜6xl の値はそのまま) に、注釈用の 2xs を足したもので、7xl 以上は無い。
+     これが無いと text-7xl や text-[13px] 相当の語彙外が書けてしまう。
+     --container-*: initial と同じ理由で、再宣言より「前」に置くこと。後ろに置くと
+     直後に宣言した token まで消える。 */
+  --text-*: initial;
+
+  /* UI の 11 段。 */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: calc(1 / 0.6875);
+  --text-xs: 0.75rem;
+  --text-xs--line-height: calc(1 / 0.75);
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(1.25 / 0.875);
+  --text-base: 1rem;
+  --text-base--line-height: calc(1.5 / 1);
+  --text-lg: 1.125rem;
+  --text-lg--line-height: calc(1.75 / 1.125);
+  --text-xl: 1.25rem;
+  --text-xl--line-height: calc(1.75 / 1.25);
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: calc(2 / 1.5);
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: calc(2.25 / 1.875);
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: calc(2.5 / 2.25);
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1;
+
+  /* 本文の強調 (記事の中で強く見せたい字) の 10 段。UI とは体系を分けていて、
+     太さは全段 700。刻みは等比ではなく、上の段ほど倍率が開く (1 → 2 は約 ×1.17、
+     9 → 10 は ×1.44)。小さい段は読む字として隣り合い、大きい段は図柄として
+     見せるので、同じ比では上が物足りなくなるため。
+     -mobile は md 未満で使う。上限は 72px (4.5rem) に抑えている。デスクトップの
+     144px (9rem) のままだと幅 375px の画面で 1 行に 2 文字しか入らない。
+     class 名は md:text-deco-3 のように完全な文字列で書くこと。組み立てた名前は
+     Tailwind が拾えず生成されない。 */
+  --text-deco-1: 1.125rem;
+  --text-deco-1--line-height: 1.5;
+  --text-deco-1--font-weight: 700;
+  --text-deco-1-mobile: 1.125rem;
+  --text-deco-1-mobile--line-height: 1.5;
+  --text-deco-1-mobile--font-weight: 700;
+  --text-deco-2: 1.3125rem;
+  --text-deco-2--line-height: 1.45;
+  --text-deco-2--font-weight: 700;
+  --text-deco-2-mobile: 1.25rem;
+  --text-deco-2-mobile--line-height: 1.5;
+  --text-deco-2-mobile--font-weight: 700;
+  --text-deco-3: 1.5rem;
+  --text-deco-3--line-height: 1.4;
+  --text-deco-3--font-weight: 700;
+  --text-deco-3-mobile: 1.375rem;
+  --text-deco-3-mobile--line-height: 1.45;
+  --text-deco-3-mobile--font-weight: 700;
+  --text-deco-4: 1.75rem;
+  --text-deco-4--line-height: 1.35;
+  --text-deco-4--font-weight: 700;
+  --text-deco-4-mobile: 1.5rem;
+  --text-deco-4-mobile--line-height: 1.4;
+  --text-deco-4-mobile--font-weight: 700;
+  --text-deco-5: 2.125rem;
+  --text-deco-5--line-height: 1.3;
+  --text-deco-5--font-weight: 700;
+  --text-deco-5-mobile: 1.6875rem;
+  --text-deco-5-mobile--line-height: 1.4;
+  --text-deco-5-mobile--font-weight: 700;
+  --text-deco-6: 2.625rem;
+  --text-deco-6--line-height: 1.25;
+  --text-deco-6--font-weight: 700;
+  --text-deco-6-mobile: 1.9375rem;
+  --text-deco-6-mobile--line-height: 1.35;
+  --text-deco-6-mobile--font-weight: 700;
+  --text-deco-7: 3.375rem;
+  --text-deco-7--line-height: 1.2;
+  --text-deco-7--font-weight: 700;
+  --text-deco-7-mobile: 2.3125rem;
+  --text-deco-7-mobile--line-height: 1.3;
+  --text-deco-7-mobile--font-weight: 700;
+  --text-deco-8: 4.5rem;
+  --text-deco-8--line-height: 1.15;
+  --text-deco-8--font-weight: 700;
+  --text-deco-8-mobile: 2.8125rem;
+  --text-deco-8-mobile--line-height: 1.25;
+  --text-deco-8-mobile--font-weight: 700;
+  --text-deco-9: 6.25rem;
+  --text-deco-9--line-height: 1.1;
+  --text-deco-9--font-weight: 700;
+  --text-deco-9-mobile: 3.5rem;
+  --text-deco-9-mobile--line-height: 1.2;
+  --text-deco-9-mobile--font-weight: 700;
+  --text-deco-10: 9rem;
+  --text-deco-10--line-height: 1.1;
+  --text-deco-10--font-weight: 700;
+  --text-deco-10-mobile: 4.5rem;
+  --text-deco-10-mobile--line-height: 1.15;
+  --text-deco-10-mobile--font-weight: 700;
 
   /* --- 封じるパレット --- */
   /* gray / zinc / stone は neutral と役割が重複する。混在が今回の散らかりの
